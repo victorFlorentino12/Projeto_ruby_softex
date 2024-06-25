@@ -21,17 +21,18 @@ class VotingApplication
     @voting_storage_view = VotingStorageView.new(@voting_storage_service)
     @voting_view = VotingView.new
     @exit_view = ExitView.new
-    @Result_view = ResultView.new
+    @Result_view = ResultView.new(@voting_storage_service)
   end
 
   def run
-    # loop do
-    #   cpf = @cpf_validation_view.start
-    #   candidate = @voting_view.start
-    #   @voting_storage_service.record_vote(cpf, candidate)
-    #   @voting_storage_view.start
-    #   break unless @exit_view.start
-    # end
+    loop do
+      cpf = @cpf_validation_view.start
+      candidate = @voting_view.start
+      @voting_storage_service.record_vote(cpf, candidate)
+      @voting_storage_view.start
+      break unless @exit_view.start
+    end
+    puts @voting_storage_service.votes
     @Result_view.start
   end
 end
