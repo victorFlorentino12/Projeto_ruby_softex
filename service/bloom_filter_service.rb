@@ -1,8 +1,10 @@
+# service/bloom_filter_service.rb
+
 require "murmurhash3"
 require "cityhash"
 require "ruby-xxhash"
 
-class Bloom
+class BloomFilterService
   @@DEFAULT_K = [
     MurmurHash3::V32.method(:str_hash),
     CityHash.method(:hash32),

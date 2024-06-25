@@ -1,7 +1,5 @@
-class Title
-  private_class_method :new
-
-  def self.execute
+class Banner
+  def display
     puts "╔".ljust(50, "═") + "╗"
 
     puts "║   ___  ___  ________  ________   ________     " + "  ║"

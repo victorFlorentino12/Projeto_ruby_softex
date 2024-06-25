@@ -1,3 +1,5 @@
+#entity/CPF
+
 class CPF
   def initialize(cpf)
     @cpf = cpf

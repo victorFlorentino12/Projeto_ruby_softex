@@ -1,5 +1,7 @@
+#entity/candidate
+
 class Candidate
-  attr_reader :name
+  attr_reader :name, :color
 
   def initialize(name, color, char = "★")
     @name = name

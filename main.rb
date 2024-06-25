@@ -1,16 +1,41 @@
-require "./case/title"
-require "./case/vote"
-require "./case/validate_user"
-require "./util/bloom_filter"
-require "./util/confirmation_dialog"
+# main.rb
 
-$bloom = Bloom.new
-$dialog_end = ConfirmationDialog.new("Deseja votar novamente? [\e[32;1m(S)im\e[0m, \e[31;1m(N)ão\e[0m]")
-loop do
-  $cpf = FindValidCPFToVote.execute($bloom)
-  $vote = FindVote.execute
-  $bloom.push($cpf.to_a.join)
-  puts "Voto Registrado com sucesso!"
-  sleep 3
-  break unless $dialog_end.execute
+# Imports das Views
+require "./view/voting_view"
+require "./view/voting_storage_view"
+require "./view/cpf_validation_view"
+require "./view/exit_view"
+require "./view/result_view"
+
+# Imports dos Services
+require "./service/bloom_filter_service"
+require "./service/cpf_validation_service"
+require "./service/voting_storage_service"
+
+class VotingApplication
+  def initialize
+    @bloom_filter_service = BloomFilterService.new
+    @voting_storage_service = VotingStorageService.new(@bloom_filter_service)
+    @cpf_validation_service = CPFValidationService.new(@bloom_filter_service)
+    @cpf_validation_view = CPFValidationView.new(@cpf_validation_service)
+    @voting_storage_view = VotingStorageView.new(@voting_storage_service)
+    @voting_view = VotingView.new
+    @exit_view = ExitView.new
+    @Result_view = ResultView.new
+  end
+
+  def run
+    # loop do
+    #   cpf = @cpf_validation_view.start
+    #   candidate = @voting_view.start
+    #   @voting_storage_service.record_vote(cpf, candidate)
+    #   @voting_storage_view.start
+    #   break unless @exit_view.start
+    # end
+    @Result_view.start
+  end
 end
+
+# Executa o aplicativo de votação
+$voting_app = VotingApplication.new
+$voting_app.run

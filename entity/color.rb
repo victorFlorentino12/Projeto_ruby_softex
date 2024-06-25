@@ -1,3 +1,5 @@
+#entity/color
+
 class Color
   attr_reader :r, :g, :b
 
